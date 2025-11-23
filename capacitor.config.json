@@ -1,0 +1,11 @@
+{
+  "appId": "com.tuempresa.instagram",
+  "appName": "Instagram Clone",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Camera": {
+      "saveToGallery": true
+    }
+  }
+}
