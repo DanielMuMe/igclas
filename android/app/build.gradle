@@ -22,7 +22,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // Force Java compatibility to 17 to match local JDK (javac 17)
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    // Configure Kotlin compile jvm target when Kotlin is present
+    // This is defensive: if the kotlin plugin isn't applied this block will be ignored.
 }
+
 
 repositories {
     flatDir{
@@ -43,6 +51,18 @@ dependencies {
 }
 
 apply from: 'capacitor.build.gradle'
+
+// Configure Kotlin compile jvm target when Kotlin is present
+// Placed outside the android { } block to avoid resolution errors when Kotlin plugin isn't applied.
+tasks.matching { it.class.name == 'org.jetbrains.kotlin.gradle.tasks.KotlinCompile' }.configureEach {
+    try {
+        kotlinOptions {
+            jvmTarget = '17'
+        }
+    } catch(ignore) {
+        // If Kotlin isn't present, ignore.
+    }
+}
 
 try {
     def servicesJSON = file('google-services.json')
