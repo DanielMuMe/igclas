@@ -373,9 +373,12 @@ const App = () => {
     return (
       <div className="min-h-screen bg-white pb-20">
         <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center">
+          <button onClick={() => setCurrentView('home')} className="text-gray-600">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
           <h2 className="text-lg font-semibold">{profile?.username}</h2>
-          <button onClick={handleLogout} className="text-sm text-red-500">
-            Cerrar sesión
+          <button onClick={handleLogout} className="text-sm text-red-500 font-semibold">
+            Salir
           </button>
         </div>
         
@@ -420,6 +423,41 @@ const App = () => {
                 No hay publicaciones aún
               </div>
             )}
+          </div>
+        </div>
+        
+        {/* Agregar barra de navegación también en perfil */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+          <div className="flex justify-around items-center h-14 max-w-2xl mx-auto">
+            <button
+              onClick={() => setCurrentView('home')}
+              className="text-gray-600 transition-colors"
+              title="Inicio"
+            >
+              <Home className="w-6 h-6" />
+            </button>
+            <button className="text-gray-600" title="Buscar">
+              <Search className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setCurrentView('newPost')}
+              className="text-gray-600 transition-colors"
+              title="Nueva publicación"
+            >
+              <PlusSquare className="w-6 h-6" />
+            </button>
+            <button className="text-gray-600" title="Notificaciones">
+              <Heart className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => setCurrentView('profile')}
+              className="text-purple-600 transition-colors"
+              title="Perfil"
+            >
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold border-2 border-purple-600">
+                {profile?.username[0].toUpperCase()}
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -497,31 +535,41 @@ const App = () => {
         )}
       </div>
 
+      {/* Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
         <div className="flex justify-around items-center h-14 max-w-2xl mx-auto">
           <button
             onClick={() => setCurrentView('home')}
-            className={currentView === 'home' ? 'text-purple-600' : 'text-gray-600'}
+            className={`transition-colors ${currentView === 'home' ? 'text-purple-600' : 'text-gray-600'}`}
+            title="Inicio"
           >
-            <Home className="w-6 h-6" />
+            <Home className="w-6 h-6" fill={currentView === 'home' ? 'currentColor' : 'none'} />
           </button>
-          <button className="text-gray-600">
+          <button className="text-gray-600" title="Buscar">
             <Search className="w-6 h-6" />
           </button>
           <button
             onClick={() => setCurrentView('newPost')}
-            className="text-gray-600"
+            className={`transition-colors ${currentView === 'newPost' ? 'text-purple-600' : 'text-gray-600'}`}
+            title="Nueva publicación"
           >
             <PlusSquare className="w-6 h-6" />
           </button>
-          <button className="text-gray-600">
+          <button className="text-gray-600" title="Notificaciones">
             <Heart className="w-6 h-6" />
           </button>
           <button
             onClick={() => setCurrentView('profile')}
-            className={currentView === 'profile' ? 'text-purple-600' : 'text-gray-600'}
+            className={`transition-colors ${currentView === 'profile' ? 'text-purple-600' : 'text-gray-600'}`}
+            title="Perfil"
           >
-            <User className="w-6 h-6" />
+            {currentView === 'profile' ? (
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold border-2 border-purple-600">
+                {profile?.username[0].toUpperCase()}
+              </div>
+            ) : (
+              <User className="w-6 h-6" />
+            )}
           </button>
         </div>
       </div>
